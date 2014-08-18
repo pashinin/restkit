@@ -30,9 +30,9 @@ CLASSIFIERS = [
 
 SCRIPTS = ['scripts/restcli']
 
+
 def main():
-    version = load_source("version", os.path.join("restkit",
-        "version.py"))
+    version = load_source("version", os.path.join("restkit", "version.py"))
 
     # read long description
     with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as f:
@@ -40,35 +40,34 @@ def main():
 
     DATA_FILES = [
         ('restkit', ["LICENSE", "MANIFEST.in", "NOTICE", "README.rst",
-                        "THANKS", "TODO.txt"])
+                     "THANKS", "TODO.txt"])
         ]
 
-    options=dict(
-            name = 'restkit',
-            version = version.__version__,
-            description = 'Python REST kit',
-            long_description = long_description,
-            author = 'Benoit Chesneau',
-            author_email = 'benoitc@e-engura.org',
-            license = 'MIT',
-            url = 'http://benoitc.github.com/restkit',
-            classifiers = CLASSIFIERS,
-            packages = find_packages(exclude=['tests']),
-            data_files = DATA_FILES,
-            scripts = SCRIPTS,
-            zip_safe =  False,
-            entry_points =  {
-                'paste.app_factory': [
-                    'proxy = restkit.contrib.wsgi_proxy:make_proxy',
-                    'host_proxy = restkit.contrib.wsgi_proxy:make_host_proxy',
-                    'couchdb_proxy = restkit.contrib.wsgi_proxy:make_couchdb_proxy',
-                ]},
-            install_requires = [
-                'http-parser>=0.8.3',
-                'socketpool>=0.5.3'],
-            test_suite = 'nose.collector'
-        )
-
+    options = dict(
+        name='restkit',
+        version=version.__version__,
+        description='Python REST kit',
+        long_description=long_description,
+        author='Benoit Chesneau',
+        author_email='benoitc@e-engura.org',
+        license='MIT',
+        url='http://benoitc.github.com/restkit',
+        classifiers=CLASSIFIERS,
+        packages=find_packages(exclude=['tests']),
+        data_files=DATA_FILES,
+        scripts=SCRIPTS,
+        zip_safe=False,
+        entry_points={
+            'paste.app_factory': [
+                'proxy = restkit.contrib.wsgi_proxy:make_proxy',
+                'host_proxy = restkit.contrib.wsgi_proxy:make_host_proxy',
+                'couchdb_proxy = restkit.contrib.wsgi_proxy:make_couchdb_proxy',
+            ]},
+        install_requires=[
+            'http-parser>=0.8.3',
+            'socketpool>=0.5.3'],
+        test_suite='nose.collector'
+    )
 
     setup(**options)
 

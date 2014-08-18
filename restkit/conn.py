@@ -22,7 +22,7 @@ DNS_TIMEOUT = 60
 class Connection(Connector):
 
     def __init__(self, host, port, backend_mod=None, pool=None,
-            is_ssl=False, extra_headers=[], proxy_pieces=None, **ssl_args):
+                 is_ssl=False, extra_headers=[], proxy_pieces=None, **ssl_args):
 
         # connect the socket, if we are using an SSL connection, we wrap
         # the socket.
@@ -43,7 +43,7 @@ class Connection(Connector):
         self.host = host
         self.port = port
         self._connected = True
-        self._life =  time.time() - random.randint(0, 10)
+        self._life = time.time() - random.randint(0, 10)
         self._pool = pool
         self._released = False
 
