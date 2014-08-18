@@ -16,7 +16,7 @@
 #
 
 import base64
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from six.moves.BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import cgi
 import os
 import socket
