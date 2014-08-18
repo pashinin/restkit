@@ -1,3 +1,4 @@
+from __future__ import print_function
 import timeit
 
 import eventlet
@@ -24,9 +25,11 @@ allurls = []
 for i in range(10):
     allurls.extend(urls)
 
+
 def fetch(u):
     r = request(u, follow_redirect=True, pool=pool)
-    print "RESULT: %s: %s (%s)" % (u, r.status, len(r.body_string()))
+    print("RESULT: %s: %s (%s)" % (u, r.status, len(r.body_string())))
+
 
 def extract():
     for url in allurls:
@@ -34,4 +37,4 @@ def extract():
     epool.waitall()
 
 t = timeit.Timer(stmt=extract)
-print "%.2f s" % t.timeit(number=1)
+print("%.2f s" % t.timeit(number=1))

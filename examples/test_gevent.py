@@ -1,6 +1,8 @@
+from __future__ import print_function
 import timeit
 
-from gevent import monkey; monkey.patch_all()
+from gevent import monkey
+monkey.patch_all()
 import gevent
 
 from restkit import *
@@ -12,24 +14,25 @@ from socketpool import ConnectionPool
 pool = ConnectionPool(factory=Connection, backend="gevent")
 
 urls = [
-        "http://refuge.io",
-        "http://gunicorn.org",
-        "http://friendpaste.com",
-        "http://benoitc.io",
-        "http://couchdb.apache.org"]
+    "http://refuge.io",
+    "http://gunicorn.org",
+    "http://friendpaste.com",
+    "http://benoitc.io",
+    "http://couchdb.apache.org"]
 
 allurls = []
 for i in range(10):
     allurls.extend(urls)
 
+
 def fetch(u):
     r = request(u, follow_redirect=True, pool=pool)
-    print "RESULT: %s: %s (%s)" % (u, r.status, len(r.body_string()))
+    print("RESULT: %s: %s (%s)" % (u, r.status, len(r.body_string())))
+
 
 def extract():
-
     jobs = [gevent.spawn(fetch, url) for url in allurls]
     gevent.joinall(jobs)
 
 t = timeit.Timer(stmt=extract)
-print "%.2f s" % t.timeit(number=1)
+print("%.2f s" % t.timeit(number=1))

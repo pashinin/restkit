@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -
 #
-# This file is part of restkit released under the MIT license. 
+# This file is part of restkit released under the MIT license.
 # See the NOTICE for more information.
 
+from __future__ import print_function
 from StringIO import StringIO
 import urlparse
 
 try:
     from IPython.config.loader import Config
-    from IPython.frontend.terminal.embed  import InteractiveShellEmbed
+    from IPython.frontend.terminal.embed import InteractiveShellEmbed
 except ImportError:
-    raise ImportError('IPython (http://pypi.python.org/pypi/ipython) >=0.11' +\
-                    'is required.')
-                    
+    raise ImportError('IPython (http://pypi.python.org/pypi/ipython) >=0.11' + 'is required.')
+
 try:
     import webob
 except ImportError:
@@ -37,6 +37,7 @@ class JSON(Stream):
             Stream.__init__(self, json.dumps(value))
         else:
             Stream.__init__(self, value)
+
     def __repr__(self):
         return '<JSON(%s)>' % self.__value
 
@@ -46,12 +47,14 @@ class Response(BaseResponse):
         if self.content_length < 200 and skip_body:
             skip_body = False
         return BaseResponse.__str__(self, skip_body=skip_body)
+
     def __call__(self):
-        print self
+        print(self)
 
 
 class Request(BaseRequest):
     ResponseClass = Response
+
     def get_response(self, *args, **kwargs):
         url = self.url
         stream = None
@@ -85,16 +88,18 @@ class Request(BaseRequest):
         return BaseRequest.__str__(self, skip_body=skip_body)
 
     def __call__(self):
-        print self
+        print(self)
 
 
 class ContentTypes(object):
     _values = {}
+
     def __repr__(self):
         return '<%s(%s)>' % (self.__class__.__name__, sorted(self._values))
+
     def __str__(self):
-        return '\n'.join(['%-20.20s: %s' % h for h in \
-                                            sorted(self._value.items())])
+        return '\n'.join(['%-20.20s: %s' % h for h in
+                          sorted(self._value.items())])
 
 
 ctypes = ContentTypes()
@@ -112,18 +117,18 @@ class RestShell(InteractiveShellEmbed):
         shell_config = cfg.InteractiveShellEmbed
         shell_config.prompt_in1 = '\C_Blue\#) \C_Greenrestcli\$ '
 
-        super(RestShell, self).__init__(config = cfg,
-                banner1= 'restkit shell %s' % __version__,
-                exit_msg="quit restcli shell", user_ns=user_ns)
-        
+        super(RestShell, self).__init__(config=cfg,
+                                        banner1='restkit shell %s' % __version__,
+                                        exit_msg="quit restcli shell", user_ns=user_ns)
+
 
 class ShellClient(object):
     methods = dict(
-            get='[req|url|path_info], **query_string',
-            post='[req|url|path_info], [Stream()|**query_string_body]',
-            head='[req|url|path_info], **query_string',
-            put='[req|url|path_info], stream',
-            delete='[req|url|path_info]')
+        get='[req|url|path_info], **query_string',
+        post='[req|url|path_info], [Stream()|**query_string_body]',
+        head='[req|url|path_info], **query_string',
+        put='[req|url|path_info], stream',
+        delete='[req|url|path_info]')
 
     def __init__(self, url='/', options=None, **kwargs):
         self.options = options
@@ -158,13 +163,13 @@ class ShellClient(object):
         req.headers = headers
         req.set_url(self.url)
         ns.update(
-                  Request=Request,
-                  Response=Response,
-                  Stream=Stream,
-                  req=req,
-                  stream=stream,
-                  ctypes=ctypes,
-                  )
+            Request=Request,
+            Response=Response,
+            Stream=Stream,
+            req=req,
+            stream=stream,
+            ctypes=ctypes,
+        )
         if json:
             ns['JSON'] = JSON
 
@@ -173,11 +178,11 @@ class ShellClient(object):
             resp = self.request(k.upper(), *args, **kwargs)
             self.shell.user_ns.update(dict(resp=resp))
 
-            print resp
+            print(resp)
             return resp
         req.func_name = k
         req.__name__ = k
-        req.__doc__ =  """send a HTTP %s""" % k.upper()
+        req.__doc__ = """send a HTTP %s""" % k.upper()
         return req
 
     def request(self, meth, *args, **kwargs):
@@ -208,8 +213,8 @@ class ShellClient(object):
             doc = '  >>> %s(%s)' % (k, args)
             methods += '%-65.65s # send a HTTP %s\n' % (doc, k)
         ns['methods'] = methods
-        print HELP.strip() % ns
-        print ''
+        print(HELP.strip() % ns)
+        print('')
 
     def __repr__(self):
         return '<shellclient>'
