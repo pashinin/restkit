@@ -15,7 +15,7 @@ from six.moves.urllib import parse as urlparse
 
 try:
     from http_parser.http import (
-            HttpStream, BadStatusLine, NoMoreData
+        HttpStream, BadStatusLine, NoMoreData
     )
     from http_parser.reader import SocketReader
 except ImportError:
@@ -25,21 +25,22 @@ except ImportError:
 
 from restkit import __version__
 
-from restkit.conn import Connection
-from restkit.errors import RequestError, RequestTimeout, RedirectLimit, \
-ProxyError
-from restkit.session import get_session
-from restkit.util import parse_netloc, rewrite_location, to_bytestring
-from restkit.wrappers import Request, Response
+from .conn import Connection
+from .errors import RequestError, RequestTimeout, RedirectLimit, \
+    ProxyError
+from .session import get_session
+from .util import parse_netloc, rewrite_location, to_bytestring
+from .wrappers import Request, Response
 
-MAX_CLIENT_TIMEOUT=300
+MAX_CLIENT_TIMEOUT = 300
 MAX_CLIENT_CONNECTIONS = 5
-MAX_CLIENT_TRIES =3
+MAX_CLIENT_TRIES = 3
 CLIENT_WAIT_TRIES = 0.3
 MAX_FOLLOW_REDIRECTS = 5
 USER_AGENT = "restkit/%s" % __version__
 
 log = logging.getLogger(__name__)
+
 
 class Client(object):
     """A client handle a connection at a time. A client is threadsafe,
@@ -61,25 +62,25 @@ class Client(object):
     """
 
     version = (1, 1)
-    response_class=Response
+    response_class = Response
 
     def __init__(self,
-            follow_redirect=False,
-            force_follow_redirect=False,
-            max_follow_redirect=MAX_FOLLOW_REDIRECTS,
-            filters=None,
-            decompress=True,
-            max_status_line_garbage=None,
-            max_header_count=0,
-            pool=None,
-            response_class=None,
-            timeout=None,
-            use_proxy=False,
-            max_tries=3,
-            wait_tries=0.3,
-            pool_size=10,
-            backend="thread",
-            **ssl_args):
+                 follow_redirect=False,
+                 force_follow_redirect=False,
+                 max_follow_redirect=MAX_FOLLOW_REDIRECTS,
+                 filters=None,
+                 decompress=True,
+                 max_status_line_garbage=None,
+                 max_header_count=0,
+                 pool=None,
+                 response_class=None,
+                 timeout=None,
+                 use_proxy=False,
+                 max_tries=3,
+                 wait_tries=0.3,
+                 pool_size=10,
+                 backend="thread",
+                 **ssl_args):
         """
         Client parameters
         ~~~~~~~~~~~~~~~~~
@@ -122,15 +123,12 @@ class Client(object):
         self.response_filters = []
         self.load_filters()
 
-
         # set manager
-
         session_options = dict(
-                retry_delay=wait_tries,
-                max_size = pool_size,
-                retry_max = max_tries,
-                timeout = timeout)
-
+            retry_delay=wait_tries,
+            max_size=pool_size,
+            retry_max=max_tries,
+            timeout=timeout)
 
         if pool is None:
             pool = get_session(backend, **session_options)
@@ -169,8 +167,6 @@ class Client(object):
             if hasattr(f, "on_response"):
                 self.response_filters.append(f)
 
-
-
     def get_connection(self, request):
         """ get a connection from the pool or create new one. """
 
@@ -181,24 +177,21 @@ class Client(object):
         conn = None
         if self.use_proxy:
             conn = self.proxy_connection(request,
-                    addr, is_ssl)
+                                         addr, is_ssl)
         if not conn:
             conn = self._pool.get(host=addr[0], port=addr[1],
-                    pool=self._pool, is_ssl=is_ssl,
-                    extra_headers=extra_headers, **self.ssl_args)
-
-
+                                  pool=self._pool, is_ssl=is_ssl,
+                                  extra_headers=extra_headers, **self.ssl_args)
         return conn
 
     def proxy_connection(self, request, req_addr, is_ssl):
         """ do the proxy connection """
         proxy_settings = os.environ.get('%s_proxy' %
-                request.parsed_url.scheme)
+                                        request.parsed_url.scheme)
 
         if proxy_settings and proxy_settings is not None:
             request.is_proxied = True
-
-            proxy_settings, proxy_auth =  _get_proxy_auth(proxy_settings)
+            proxy_settings, proxy_auth = _get_proxy_auth(proxy_settings)
             addr = parse_netloc(urlparse.urlparse(proxy_settings))
 
             if is_ssl:
@@ -238,7 +231,7 @@ class Client(object):
         if not request.body and request.method in ('POST', 'PUT',):
             headers['Content-Length'] = 0
 
-        if self.version == (1,1):
+        if self.version == (1, 1):
             httpver = "HTTP/1.1"
         else:
             httpver = "HTTP/1.0"

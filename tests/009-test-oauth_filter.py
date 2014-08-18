@@ -16,7 +16,7 @@ try:
     from urlparse import parse_qs, parse_qsl
 except ImportError:
     from cgi import parse_qs, parse_qsl
-import urllib
+from six.moves import urllib
 
 from restkit import request, OAuthFilter
 from restkit.oauth2 import Consumer

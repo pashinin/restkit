@@ -20,7 +20,6 @@ DNS_TIMEOUT = 60
 
 
 class Connection(Connector):
-
     def __init__(self, host, port, backend_mod=None, pool=None,
                  is_ssl=False, extra_headers=[], proxy_pieces=None, **ssl_args):
 

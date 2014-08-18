@@ -7,7 +7,7 @@
 import base64
 from six import BytesIO as StringIO
 from six.moves.urllib import parse as urlparse
-import urllib
+from six.moves import urllib
 
 try:
     from webob import Request as BaseRequest

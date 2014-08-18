@@ -6,7 +6,7 @@
 import os
 import re
 import time
-import urllib
+from six.moves import urllib
 from six.moves.urllib import parse as urlparse
 import warnings
 from six.moves import http_cookies as Cookie

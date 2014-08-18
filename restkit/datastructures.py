@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -
 #
-# This file is part of restkit released under the MIT license. 
+# This file is part of restkit released under the MIT license.
 # See the NOTICE for more information.
 
 try:
     from UserDict import DictMixin
-except ImportError:    
+except ImportError:
     from collections import MutableMapping as DictMixin
- 
- 
+
+
 class MultiDict(DictMixin):
 
     """
@@ -237,5 +237,3 @@ class MultiDict(DictMixin):
     def itervalues(self):
         for k, v in self._items:
             yield v
-
-

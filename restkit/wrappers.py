@@ -8,8 +8,8 @@ import copy
 import logging
 import mimetypes
 import os
-from StringIO import StringIO
 import types
+from six import BytesIO as StringIO
 from six.moves.urllib import parse as urlparse
 import uuid
 
@@ -22,8 +22,8 @@ from restkit.util import parse_cookie
 
 log = logging.getLogger(__name__)
 
-class Request(object):
 
+class Request(object):
     def __init__(self, url, method='GET', body=None, headers=None):
         headers = headers or []
         self.url = url
@@ -44,8 +44,10 @@ class Request(object):
         if not isinstance(self._headers, MultiDict):
             self._headers = MultiDict(self._headers or [])
         return self._headers
+
     def _headers__set(self, value):
         self._headers = MultiDict(copy.copy(value))
+
     headers = property(_headers__get, _headers__set, doc=_headers__get.__doc__)
 
     def _parsed_url(self):
@@ -58,8 +60,8 @@ class Request(object):
         parsed_url = self.parsed_url
         path = parsed_url.path or '/'
 
-        return urlparse.urlunparse(('','', path, parsed_url.params,
-            parsed_url.query, parsed_url.fragment))
+        return urlparse.urlunparse(('', '', path, parsed_url.params,
+                                    parsed_url.query, parsed_url.fragment))
     path = property(_path__get)
 
     def _host__get(self):
@@ -106,7 +108,7 @@ class Request(object):
         if not ctype:
             ctype = 'application/octet-stream'
             if hasattr(self.body, 'name'):
-                ctype =  mimetypes.guess_type(body.name)[0]
+                ctype = mimetypes.guess_type(body.name)[0]
 
         if not clen:
             if hasattr(self._body, 'fileno'):
@@ -117,7 +119,7 @@ class Request(object):
                 try:
                     fno = self._body.fileno()
                     clen = str(os.fstat(fno)[6])
-                except  IOError:
+                except IOError:
                     if not self.is_chunked():
                         clen = len(self._body.read())
             elif hasattr(self._body, 'getvalue') and not \
@@ -145,13 +147,12 @@ class Request(object):
             if not hasattr(self.body, 'seek') and \
                     not isinstance(self.body, types.StringTypes):
                 raise RequestError("error: '%s', body can't be rewind."
-                        % msg)
+                                   % msg)
         if log.isEnabledFor(logging.DEBUG):
             log.debug("restart request: %s" % msg)
 
 
 class BodyWrapper(object):
-
     def __init__(self, resp, connection):
         self.resp = resp
         self.body = resp._body
@@ -210,7 +211,6 @@ class BodyWrapper(object):
 
 
 class Response(object):
-
     charset = "utf8"
     unicode_errors = 'strict'
 
@@ -234,7 +234,6 @@ class Response(object):
         if 'set-cookie' in self.headers:
             cookie_header = self.headers.get('set-cookie')
             self.cookies = parse_cookie(cookie_header, self.final_url)
-
 
         self._closed = False
         self._already_read = False
@@ -278,7 +277,6 @@ class Response(object):
         if not self.can_read():
             raise AlreadyRead()
 
-
         body = self._body.read()
         self._already_read = True
 
@@ -300,12 +298,11 @@ class Response(object):
 
         return BodyWrapper(self, self.connection)
 
-
     def tee(self):
         """ copy response input to standard output or a file if length >
         sock.MAX_BODY. This make possible to reuse it in your
         appplication. When all the input has been read, connection is
         released """
         return ResponseTeeInput(self, self.connection,
-                should_close=self.should_close)
+                                should_close=self.should_close)
 ClientResponse = Response

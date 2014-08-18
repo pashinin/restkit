@@ -68,7 +68,7 @@ import re
 import stat
 import time
 import types
-import urllib
+from six.moves import urllib
 import urlparse
 import xml.sax
 

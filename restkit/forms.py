@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -
 #
-# This file is part of restkit released under the MIT license. 
+# This file is part of restkit released under the MIT license.
 # See the NOTICE for more information.
 
 
 import mimetypes
 import os
 import re
-import urllib
+from six.moves import urllib
 
 
 from restkit.util import to_bytestring, url_quote, url_encode
 
 MIME_BOUNDARY = 'END_OF_PART'
 CRLF = '\r\n'
+
 
 def form_encode(obj, charset="utf8"):
     encoded = url_encode(obj, charset=charset)
