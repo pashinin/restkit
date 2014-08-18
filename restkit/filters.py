@@ -9,7 +9,8 @@ try:
     from six.moves.urllib.parse import parse_qsl
 except ImportError:
     from cgi import parse_qsl
-from urlparse import urlunparse
+
+from six.moves.urllib.parse import urlunparse
 
 from restkit.oauth2 import Request, SignatureMethod_HMAC_SHA1
 
