@@ -7,7 +7,8 @@
 import mimetypes
 import os
 import re
-from six.moves import urllib
+#from six.moves import urllib
+from six.moves.urllib import parse as urllib
 
 
 from restkit.util import to_bytestring, url_quote, url_encode

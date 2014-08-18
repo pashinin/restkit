@@ -4,7 +4,8 @@
 # See the NOTICE for more information.
 
 import base64
-from six.moves import urllib
+#from six.moves import urllib
+from six.moves.urllib import parse as urllib
 import time
 import random
 from six.moves.urllib import parse as urlparse
