@@ -7,7 +7,7 @@ import base64
 import urllib
 import time
 import random
-import urlparse
+from six.moves.urllib import parse as urlparse
 import hmac
 import binascii
 

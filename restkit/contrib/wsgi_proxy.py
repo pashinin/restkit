@@ -3,12 +3,8 @@
 # This file is part of restkit released under the MIT license.
 # See the NOTICE for more information.
 
-import urlparse
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+from six import BytesIO as StringIO
+from six.moves.urllib import parse as urlparse
 
 from restkit.client import Client
 from restkit.conn import MAX_BODY

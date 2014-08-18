@@ -3,7 +3,7 @@
 # This file is part of restkit released under the MIT license.
 # See the NOTICE for more information.
 
-import urlparse
+from six.moves.urllib import parse as urlparse
 
 from webob import Request
 from restkit.contrib.wsgi_proxy import HostProxy

@@ -11,7 +11,7 @@ restkit.resource
 This module provide a common interface for all HTTP request.
 """
 from copy import copy
-import urlparse
+from six.moves.urllib import parse as urlparse
 
 from restkit.errors import ResourceNotFound, Unauthorized, \
 RequestFailed, ResourceGone
@@ -19,6 +19,7 @@ from restkit.client import Client
 from restkit.filters import BasicAuth
 from restkit import util
 from restkit.wrappers import Response
+
 
 class Resource(object):
     """A class that can be instantiated for access to a RESTful resource,
@@ -42,8 +43,8 @@ class Resource(object):
         client_opts = client_opts or {}
 
         self.initial = dict(
-            uri = uri,
-            client_opts = client_opts.copy()
+            uri=uri,
+            client_opts=client_opts.copy()
         )
 
         # set default response_class

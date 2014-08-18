@@ -11,7 +11,7 @@ import socket
 import ssl
 import traceback
 import types
-import urlparse
+from six.moves.urllib import parse as urlparse
 
 try:
     from http_parser.http import (

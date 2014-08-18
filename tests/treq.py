@@ -11,7 +11,7 @@ import inspect
 import os
 import random
 from six import BytesIO as StringIO
-import urlparse
+from six.moves.urllib import parse as urlparse
 
 from restkit.datastructures import MultiDict
 from restkit.http import Request, Unreader

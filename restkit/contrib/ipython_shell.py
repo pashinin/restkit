@@ -4,8 +4,8 @@
 # See the NOTICE for more information.
 
 from __future__ import print_function
-from StringIO import StringIO
-import urlparse
+from six import BytesIO as StringIO
+from six.moves.urllib import parse as urlparse
 
 try:
     from IPython.config.loader import Config

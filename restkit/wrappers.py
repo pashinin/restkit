@@ -10,7 +10,7 @@ import mimetypes
 import os
 from StringIO import StringIO
 import types
-import urlparse
+from six.moves.urllib import parse as urlparse
 import uuid
 
 from restkit.datastructures import MultiDict
