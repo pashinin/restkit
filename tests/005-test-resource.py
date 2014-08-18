@@ -6,6 +6,7 @@
 from __future__ import print_function
 from . import t
 
+from six import BytesIO as StringIO
 from restkit.errors import RequestFailed, ResourceNotFound, Unauthorized
 from restkit.resource import Resource
 from ._server_test import HOST, PORT
@@ -62,14 +63,14 @@ def test_007(res):
 
 @t.resource_request()
 def test_008(res):
-    r = res.post(payload="test")
-    t.eq(r.body_string(), "test")
+    r = res.post(payload=b"test")
+    t.eq(r.body_string(), b"test")
 
 
 @t.resource_request()
 def test_009(res):
-    r = res.post('/bytestring', payload="éàù@")
-    t.eq(r.body_string(), "éàù@")
+    r = res.post('/bytestring', payload=b"éàù@")
+    t.eq(r.body_string(), b"éàù@")
 
 
 @t.resource_request()
@@ -132,8 +133,7 @@ def test_017(res):
 @t.resource_request()
 def test_018(res):
     content_length = len("test")
-    import StringIO
-    content = StringIO.StringIO("test")
+    content = StringIO(b"test")
     r = res.post('/json', payload=content,
                  headers={
                      'Content-Type': 'application/json',
@@ -144,8 +144,7 @@ def test_018(res):
 
 @t.resource_request()
 def test_019(res):
-    import StringIO
-    content = StringIO.StringIO("test")
+    content = StringIO(b"test")
     t.raises(RequestFailed, res.post, '/json', payload=content,
              headers={'Content-Type': 'text/plain'})
 
@@ -208,9 +207,8 @@ def test_024(res):
 
 @t.resource_request()
 def test_025(res):
-    import StringIO
     content = 'éàù@'
-    f = StringIO.StringIO('éàù@')
+    f = StringIO(b'éàù@')
     f.name = 'test.txt'
     b = {'a': 'aa', 'b': 'éàù@', 'f': f}
     h = {'content-type': "multipart/form-data"}
