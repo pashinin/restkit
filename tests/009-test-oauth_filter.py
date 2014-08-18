@@ -20,7 +20,7 @@ from six.moves import urllib
 
 from restkit import request, OAuthFilter
 from restkit.oauth2 import Consumer
-import t
+from . import t
 
 
 class oauth_request(object):
@@ -38,11 +38,11 @@ class oauth_request(object):
 
     def __init__(self, utype):
         self.consumer = Consumer(key=self.consumer_key,
-                            secret=self.consumer_secret)
+                                 secret=self.consumer_secret)
         self.body = {
             'foo': 'bar',
             'bar': 'foo',
-            'multi': ['FOO','BAR'],
+            'multi': ['FOO', 'BAR'],
             'blah': 599999
         }
         self.url = "%s%s" % (self.host, self.oauth_uris[utype])
@@ -54,10 +54,12 @@ class oauth_request(object):
         run.func_name = func.func_name
         return run
 
+
 @oauth_request('request_token')
 def test_001(o, u, b):
     r = request(u, filters=[o])
     t.eq(r.status_int, 200)
+
 
 @oauth_request('request_token')
 def test_002(o, u, b):
@@ -79,6 +81,7 @@ def test_003(o, u, b):
     # can include the OAuth parameters directly into the body of the form, however
     # it MUST NOT include the 'oauth_body_hash' parameter in these circumstances.
     t.isnotin("oauth_body_hash", r.request.body)
+
 
 @oauth_request('two_legged')
 def test_004(o, u, b):
