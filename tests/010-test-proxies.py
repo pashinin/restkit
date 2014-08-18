@@ -37,7 +37,7 @@ def test_002(req):
     req.body = 'test post'
     proxy = wsgi_proxy.Proxy(allowed_methods=['POST'])
     resp = req.get_response(proxy)
-    #body = resp.body
+    body = resp.body
     assert resp.content_length == 9, str(resp)
 
     proxy = wsgi_proxy.Proxy(allowed_methods=['GET'])
@@ -53,7 +53,7 @@ def test_003(req):
     req.body = 'test post'
     proxy = wsgi_proxy.Proxy(allowed_methods=['PUT'])
     resp = req.get_response(proxy)
-    #body = resp.body
+    body = resp.body
     assert resp.content_length == 9, str(resp)
 
     proxy = wsgi_proxy.Proxy(allowed_methods=['GET'])
@@ -67,7 +67,7 @@ def test_004(req):
     req.method = 'HEAD'
     proxy = wsgi_proxy.Proxy(allowed_methods=['HEAD'])
     resp = req.get_response(proxy)
-    #body = resp.body
+    body = resp.body
     assert resp.content_type == 'text/plain', str(resp)
 
 
@@ -77,7 +77,7 @@ def test_005(req):
     req.method = 'DELETE'
     proxy = wsgi_proxy.Proxy(allowed_methods=['DELETE'])
     resp = req.get_response(proxy)
-    #body = resp.body
+    body = resp.body
     assert resp.content_type == 'text/plain', str(resp)
     proxy = wsgi_proxy.Proxy(allowed_methods=['GET'])
     resp = req.get_response(proxy)
@@ -90,7 +90,7 @@ def test_006(req):
     req.method = 'GET'
     proxy = wsgi_proxy.Proxy(allowed_methods=['GET'])
     resp = req.get_response(proxy)
-    #body = resp.body
+    body = resp.body
     assert resp.location == '%s/complete_redirect' % root_uri, str(resp)
 
 
@@ -100,7 +100,7 @@ def test_007(req):
     req.method = 'GET'
     proxy = wsgi_proxy.Proxy(allowed_methods=['GET'])
     resp = req.get_response(proxy)
-    #body = resp.body
+    body = resp.body
     print(resp.location)
     assert resp.location == '%s/complete_redirect' % root_uri, str(resp)
 
@@ -112,5 +112,5 @@ def test_008(req):
     req.method = 'GET'
     proxy = wsgi_proxy.Proxy(allowed_methods=['GET'], strip_script_name=True)
     resp = req.get_response(proxy)
-    #body = resp.body
+    body = resp.body
     assert resp.location == '%s/name/complete_redirect' % root_uri, str(resp)
