@@ -265,7 +265,7 @@ def main():
                 else:
                     print(resp.body_string())
 
-    except Exception, e:
+    except Exception as e:
         sys.stderr.write("An error happened: %s" % str(e))
         sys.stderr.flush()
         sys.exit(1)

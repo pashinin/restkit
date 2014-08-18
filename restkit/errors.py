@@ -7,6 +7,7 @@
 exception classes.
 """
 
+
 class ResourceError(Exception):
     """ default error class """
 
@@ -20,6 +21,7 @@ class ResourceError(Exception):
 
     def _get_message(self):
         return self.msg
+
     def _set_message(self, msg):
         self.msg = msg or ''
     message = property(_get_message, _set_message)
@@ -29,7 +31,7 @@ class ResourceError(Exception):
             return self.msg
         try:
             return str(self.__dict__)
-        except (NameError, ValueError, KeyError), e:
+        except (NameError, ValueError, KeyError) as e:
             return 'Unprintable exception %s: %s' \
                 % (self.__class__.__name__, str(e))
 
@@ -39,10 +41,12 @@ class ResourceNotFound(ResourceError):
     """
     status_int = 404
 
+
 class Unauthorized(ResourceError):
     """Exception raised when an authorization is required to access to
     the resource specified.
     """
+
 
 class ResourceGone(ResourceError):
     """
@@ -65,19 +69,24 @@ class RequestFailed(ResourceError):
     probably an HTML error page) is e.response.body.
     """
 
+
 class RedirectLimit(Exception):
     """Exception raised when the redirection limit is reached."""
+
 
 class RequestError(Exception):
     """Exception raised when a request is malformed"""
 
+
 class RequestTimeout(Exception):
     """ Exception raised on socket timeout """
+
 
 class InvalidUrl(Exception):
     """
     Not a valid url for use with this software.
     """
+
 
 class ResponseError(Exception):
     """ Error raised while getting response or decompressing response stream"""
@@ -86,13 +95,16 @@ class ResponseError(Exception):
 class ProxyError(Exception):
     """ raised when proxy error happend"""
 
+
 class BadStatusLine(Exception):
     """ Exception returned by the parser when the status line is invalid"""
     pass
 
+
 class ParserError(Exception):
     """ Generic exception returned by the parser """
     pass
+
 
 class UnexpectedEOF(Exception):
     """ exception raised when remote closed the connection """

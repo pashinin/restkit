@@ -328,7 +328,7 @@ class Encoder:
     # Something is seriously wrong if we get to here
     return text.encode(ENC_ASCII, 'ignore')
   #end def NarrowText
-  
+
   def MaybeNarrowPath(self, text):
     """ Paths may be allowed to stay wide """
     if self._widefiles:
@@ -521,7 +521,7 @@ class URL(object):
     """ Do encoding and canonicalization on a URL string """
     if not loc:
       return loc
-    
+
     # Let the encoder try to narrow it
     narrow = encoder.NarrowText(loc, None)
 
@@ -597,7 +597,7 @@ class URL(object):
   def Validate(self, base_url, allow_fragment):
     """ Verify the data in this URL is well-formed, and override if not. """
     assert type(base_url) == types.StringType
-    
+
     # Test (and normalize) the ref
     if not self.loc:
       output.Warn('Empty URL')
@@ -655,7 +655,7 @@ class URL(object):
   def Log(self, prefix='URL', level=3):
     """ Dump the contents, empty or not, to the log. """
     out = prefix + ':'
-    
+
     for attribute in self.__slots__:
       value = getattr(self, attribute)
       if not value:
@@ -680,7 +680,7 @@ class URL(object):
           value = str(value)
         value = xml.sax.saxutils.escape(value)
         out = out + ('  <%s>%s</%s>\n' % (attribute, value, attribute))
-    
+
     out = out + SITEURL_XML_SUFFIX
     file.write(out)
   #end def WriteXML
@@ -704,10 +704,10 @@ class NewsURL(URL):
 
     if not URL.Validate(self, base_url, allow_fragment):
       return False
- 
+
     if not URL.VerifyDate(self, self.publication_date, "publication_date"):
       self.publication_date = None
- 
+
     return True
   #end def Validate
 
@@ -716,7 +716,7 @@ class NewsURL(URL):
     if not self.loc:
       return
     out = SITEURL_XML_PREFIX
- 
+
     # printed_news_tag indicates if news-specific metatags are present
     printed_news_tag = False
     for attribute in self.__slots__:
@@ -734,7 +734,7 @@ class NewsURL(URL):
 	  out = out + ('    <news:%s>%s</news:%s>\n' % (attribute, value, attribute))
         else:
 	  out = out + ('  <%s>%s</%s>\n' % (attribute, value, attribute))
- 
+
     if printed_news_tag:
       out = out + NEWS_TAG_XML_SUFFIX
     out = out + SITEURL_XML_SUFFIX
@@ -809,7 +809,7 @@ class Filter:
     """ Process the URL, as above. """
     if (not url) or (not url.loc):
       return None
-    
+
     if self._wildcard:
       if fnmatch.fnmatchcase(url.loc, self._wildcard):
         return self._pass
@@ -838,7 +838,7 @@ class InputURL:
     if not ValidateAttributes('URL', attributes,
                                 ('href', 'lastmod', 'changefreq', 'priority')):
       return
-    
+
     url = URL()
     for attr in attributes.keys():
       if attr == 'href':
@@ -849,7 +849,7 @@ class InputURL:
     if not url.loc:
       output.Error('Url entries must have an href attribute.')
       return
-    
+
     self._url = url
     output.Log('Input: From URL "%s"' % self._url.loc, 2)
   #end def __init__
@@ -875,7 +875,7 @@ class InputURLList:
 
     if not ValidateAttributes('URLLIST', attributes, ('path', 'encoding')):
       return
-    
+
     self._path      = attributes.get('path')
     self._encoding  = attributes.get('encoding', ENC_UTF8)
     if self._path:
@@ -908,7 +908,7 @@ class InputURLList:
       line = line.strip()
       if (not line) or line[0] == '#':
         continue
-      
+
       # Split the line on space
       url = URL()
       cols = line.split(' ')
@@ -947,15 +947,15 @@ class InputNewsURLList:
     self._path      = None                  # The file path
     self._encoding  = None                  # Encoding of that file
     self._tag_order = []                    # Order of URL metadata
- 
+
     if not ValidateAttributes('URLLIST', attributes, ('path', 'encoding', \
 		              'tag_order')):
       return
- 
+
     self._path      = attributes.get('path')
     self._encoding  = attributes.get('encoding', ENC_UTF8)
     self._tag_order = attributes.get('tag_order')
- 
+
     if self._path:
       self._path    = encoder.MaybeNarrowPath(self._path)
       if os.path.isfile(self._path):
@@ -985,7 +985,7 @@ class InputNewsURLList:
     for tag in self._tag_order:
       tag_order_dict[tag] = ""
     if not ValidateAttributes('URLLIST', tag_order_dict, \
-		    NEWS_SITEMAP_TAGS): 
+		    NEWS_SITEMAP_TAGS):
       return
 
     # loc tag must be present
@@ -1018,7 +1018,7 @@ class InputNewsURLList:
       line = line.strip()
       if (not line) or line[0] == '#':
         continue
-      
+
       # Split the line on tabs
       url = NewsURL()
       cols = line.split('\t')
@@ -1057,7 +1057,7 @@ class InputDirectory:
     self._path         = None               # The directory
     self._url          = None               # The URL equivalent
     self._default_file = None
-    self._remove_empty_directories = False 
+    self._remove_empty_directories = False
 
     if not ValidateAttributes('DIRECTORY', attributes, ('path', 'url',
                               'default_file', 'remove_empty_directories')):
@@ -1075,7 +1075,7 @@ class InputDirectory:
     if not os.path.isdir(path):
       output.Error('Can not locate directory: %s' % path)
       return
-    
+
     # Prep the URL -- it MUST end in a sep
     url = attributes.get('url')
     if not url:
@@ -1130,8 +1130,8 @@ class InputDirectory:
       output.Log('Input: From DIRECTORY "%s" (%s) with no default file'
                  % (path, url), 2)
   #end def __init__
-  
-     
+
+
   def ProduceURLs(self, consumer):
     """ Produces URLs from our data source, hands them in to the consumer. """
     if not self._path:
@@ -1143,7 +1143,7 @@ class InputDirectory:
     remove_empty_directories = self._remove_empty_directories
 
     def HasReadPermissions(path):
-      """ Verifies a given path has read permissions. """  
+      """ Verifies a given path has read permissions. """
       stat_info = os.stat(path)
       mode = stat_info[stat.ST_MODE]
       if mode & stat.S_IREAD:
@@ -1196,7 +1196,7 @@ class InputDirectory:
       if name and (root_file == name):
         url.Log(prefix='IGNORED (default file)', level=2)
         return
-  
+
       # Suppress directories when remove_empty_directories="true"
       try:
         if isdir:
@@ -1215,7 +1215,7 @@ class InputDirectory:
         pass
       except ValueError:
         pass
- 
+
       consumer(url, False)
     #end def PerFile
 
@@ -1675,7 +1675,7 @@ class Sitemap(xml.sax.handler.ContentHandler):
     """
     All per-URL processing comes together here, regardless of Input.
     Here we run filters, remove duplicates, spill to disk as needed, etc.
-    
+
     """
     if not url:
       return
@@ -1729,13 +1729,13 @@ class Sitemap(xml.sax.handler.ContentHandler):
     slow because we like to sort them all and normalize the priorities
     before dumping.
     """
-    
+
     # Determine what Sitemap header to use (News or General)
     if self._sitemap_type == 'news':
       sitemap_header = NEWS_SITEMAP_HEADER
     else:
       sitemap_header = GENERAL_SITEMAP_HEADER
-      
+
     # Sort and normalize
     output.Log('Sorting and normalizing collected URLs.', 1)
     self._set.sort()
@@ -1800,7 +1800,7 @@ class Sitemap(xml.sax.handler.ContentHandler):
       sitemap_index_header = NEWS_SITEMAP_HEADER
     else:
       sitemap__index_header = GENERAL_SITEMAP_HEADER
- 
+
     # Make a lastmod time
     lastmod = TimestampISO8601(time.time())
 
@@ -2036,7 +2036,7 @@ def CreateSitemapFromFile(configpath, suppress_notify):
     xml.sax.parse(configpath, sitemap)
   except IOError:
     output.Error('Cannot read configuration file: %s' % configpath)
-  except xml.sax._exceptions.SAXParseException, e:
+  except xml.sax._exceptions.SAXParseException as e:
     output.Error('XML error in the config file (line %d, column %d): %s' %
                  (e._linenum, e._colnum, e.getMessage()))
   except xml.sax._exceptions.SAXReaderNotAvailable:
