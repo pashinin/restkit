@@ -529,12 +529,12 @@ class URL(object):
 
     # Escape components individually
     (scheme, netloc, path, query, frag) = urlparse.urlsplit(narrow)
-    unr    = '-._~'
-    sub    = '!$&\'()*+,;='
+    unr = '-._~'
+    sub = '!$&\'()*+,;='
     netloc = urllib.quote(netloc, unr + sub + '%:@/[]')
-    path   = urllib.quote(path,   unr + sub + '%:@/')
-    query  = urllib.quote(query,  unr + sub + '%:@/?')
-    frag   = urllib.quote(frag,   unr + sub + '%:@/?')
+    path = urllib.quote(path,   unr + sub + '%:@/')
+    query = urllib.quote(query,  unr + sub + '%:@/?')
+    frag = urllib.quote(frag,   unr + sub + '%:@/?')
 
     # Try built-in IDNA encoding on the netloc
     try:
