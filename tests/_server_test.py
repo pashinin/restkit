@@ -24,7 +24,7 @@ import tempfile
 import threading
 import unittest
 from six.moves.urllib import parse as urlparse
-import Cookie
+from six.moves import http_cookies as Cookie
 
 try:
     from urlparse import parse_qsl, parse_qs
@@ -36,13 +36,12 @@ from restkit.util import to_bytestring
 HOST = 'localhost'
 PORT = (os.getpid() % 31000) + 1024
 
-class HTTPTestHandler(BaseHTTPRequestHandler):
 
+class HTTPTestHandler(BaseHTTPRequestHandler):
     def __init__(self, request, client_address, server):
         self.auth = 'Basic ' + base64.encodestring('test:test')[:-1]
         self.count = 0
         BaseHTTPRequestHandler.__init__(self, request, client_address, server)
-
 
     def do_GET(self):
         self.parsed_uri = urlparse.urlparse(urllib.unquote(self.path))

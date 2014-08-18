@@ -9,7 +9,7 @@ import time
 import urllib
 from six.moves.urllib import parse as urlparse
 import warnings
-import Cookie
+from six.moves import http_cookies as Cookie
 
 from restkit.errors import InvalidUrl
 
@@ -22,8 +22,8 @@ try:  # python 2.6, use subprocess
 
     def popen3(cmd, mode='t', bufsize=0):
         p = subprocess.Popen(cmd, shell=True, bufsize=bufsize,
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            close_fds=closefds)
+                             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                             close_fds=closefds)
         p.wait()
         return (p.stdin, p.stdout, p.stderr)
 except ImportError:
