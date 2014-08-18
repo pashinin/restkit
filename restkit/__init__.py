@@ -18,7 +18,7 @@ except ImportError:
     import traceback
     traceback.print_exc()
 
-import urlparse
+from six.moves.urllib import parse as urlparse
 import logging
 
 LOG_LEVELS = {
@@ -28,6 +28,7 @@ LOG_LEVELS = {
     "info": logging.INFO,
     "debug": logging.DEBUG
 }
+
 
 def set_logging(level, handler=None):
     """
