@@ -113,7 +113,7 @@ class HTTPTestHandler(BaseHTTPRequestHandler):
 
         elif path == "/redirect_to_url":
             extra_headers = [('Content-type', 'text/plain'),
-                ('Location', 'http://localhost:%s/complete_redirect' % PORT)]
+                             ('Location', 'http://localhost:%s/complete_redirect' % PORT)]
             self._respond(301, extra_headers, "")
 
         elif path == "/pool":
@@ -140,9 +140,7 @@ class HTTPTestHandler(BaseHTTPRequestHandler):
             self._respond(200, extra_headers, "ok")
 
         else:
-            self._respond(404,
-                [('Content-type', 'text/plain')], "Not Found" )
-
+            self._respond(404, [('Content-type', 'text/plain')], "Not Found")
 
     def do_POST(self):
         self.parsed_uri = urlparse.urlparse(self.path)
@@ -236,7 +234,7 @@ class HTTPTestHandler(BaseHTTPRequestHandler):
                 f = req['f'][0]
                 if not req['a'] == ['aa']:
                     self.error_Response()
-                if not req['b'] == ['bb','éàù@']:
+                if not req['b'] == ['bb', 'éàù@']:
                     self.error_Response()
                 extra_headers = [('Content-type', 'text/plain')]
                 self._respond(200, extra_headers, str(len(f)))
@@ -328,8 +326,7 @@ class HTTPTestHandler(BaseHTTPRequestHandler):
             body_parts.append(' %s: %s\r\n' % (k, v))
         body = ''.join(body_parts)
         self._respond(400, [('Content-type', 'text/plain'),
-        ('Content-Length', str(len(body)))], body)
-
+                            ('Content-Length', str(len(body)))], body)
 
     def _respond(self, http_code, extra_headers, body):
         self.send_response(http_code)
@@ -352,11 +349,12 @@ class HTTPTestHandler(BaseHTTPRequestHandler):
         self.rfile.close()
 
 server_thread = None
+
+
 def run_server_test():
     global server_thread
     if server_thread is not None:
         return
-
 
     server = HTTPServer((HOST, PORT), HTTPTestHandler)
 
