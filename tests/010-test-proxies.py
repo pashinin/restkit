@@ -3,7 +3,7 @@
 # This file is part of restkit released under the MIT license.
 # See the NOTICE for more information.
 from __future__ import print_function
-import t
+from . import t
 from _server_test import HOST, PORT
 from restkit.contrib import wsgi_proxy
 
