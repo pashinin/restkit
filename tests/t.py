@@ -72,7 +72,7 @@ class client_request(object):
         def run():
             cli = Client(timeout=300)
             func(self.url, cli)
-        run.func_name = func.func_name
+        run.__name__ = func.__name__
         return run
 
 
@@ -87,7 +87,7 @@ class resource_request(object):
         def run():
             res = Resource(self.url)
             func(res)
-        run.func_name = func.func_name
+        run.__name__ = func.__name__
         return run
 
 
@@ -129,6 +129,6 @@ def raises(exctype, func, *args, **kwargs):
     except exctype:
         pass
     else:
-        func_name = getattr(func, "func_name", "<builtin_function>")
+        func_name = getattr(func, "__name__", "<builtin_function>")
         raise AssertionError("Function %s did not raise %s" % (
             func_name, exctype.__name__))

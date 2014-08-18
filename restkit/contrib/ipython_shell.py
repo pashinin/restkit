@@ -181,7 +181,7 @@ class ShellClient(object):
 
             print(resp)
             return resp
-        req.func_name = k
+        #req.func_name = k
         req.__name__ = k
         req.__doc__ = """send a HTTP %s""" % k.upper()
         return req

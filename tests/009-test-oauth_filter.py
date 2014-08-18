@@ -51,7 +51,7 @@ class oauth_request(object):
         def run():
             o = OAuthFilter('*', self.consumer)
             func(o, self.url, urllib.urlencode(self.body))
-        run.func_name = func.func_name
+        run.__name__ = func.__name__
         return run
 
 

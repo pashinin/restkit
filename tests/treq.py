@@ -232,9 +232,9 @@ class response(object):
 
         ret = []
         for (mt, sz, sn) in cfgs:
-            mtn = mt.func_name[6:]
-            szn = sz.func_name[5:]
-            snn = sn.func_name[5:]
+            mtn = mt.__name__[6:]
+            szn = sz.__name__[5:]
+            snn = sn.__name__[5:]
 
             def test_req(sn, sz, mt):
                 self.check(sn, sz, mt)

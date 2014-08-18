@@ -16,7 +16,7 @@ def with_webob(func):
         req = Request.blank('/')
         req.environ['SERVER_NAME'] = '%s:%s' % (HOST, PORT)
         return func(req)
-    wrapper.func_name = func.func_name
+    wrapper.__name__ = func.__name__
     return wrapper
 
 
