@@ -4,7 +4,7 @@
 # See the NOTICE for more information.
 
 from __future__ import print_function
-import t
+from . import t
 
 from restkit.errors import RequestFailed, ResourceNotFound, Unauthorized
 from restkit.resource import Resource

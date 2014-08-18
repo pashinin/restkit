@@ -13,7 +13,7 @@ import sys
 import tempfile
 import time
 
-import t
+from . import t
 from restkit.filters import BasicAuth
 
 

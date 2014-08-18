@@ -5,7 +5,7 @@
 
 import os
 import uuid
-import t
+from . import t
 from restkit import request
 from restkit.forms import multipart_form_encode
 
