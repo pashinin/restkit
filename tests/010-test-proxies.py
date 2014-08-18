@@ -34,7 +34,7 @@ def test_002(req):
     req.path_info = '/json'
     req.environ['CONTENT_TYPE'] = 'application/json'
     req.method = 'POST'
-    req.body = 'test post'
+    req.body = b'test post'
     proxy = wsgi_proxy.Proxy(allowed_methods=['POST'])
     resp = req.get_response(proxy)
     body = resp.body
@@ -50,7 +50,7 @@ def test_003(req):
     req.path_info = '/json'
     req.environ['CONTENT_TYPE'] = 'application/json'
     req.method = 'PUT'
-    req.body = 'test post'
+    req.body = b'test post'
     proxy = wsgi_proxy.Proxy(allowed_methods=['PUT'])
     resp = req.get_response(proxy)
     body = resp.body
