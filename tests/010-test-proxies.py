@@ -4,7 +4,7 @@
 # See the NOTICE for more information.
 from __future__ import print_function
 from . import t
-from _server_test import HOST, PORT
+from ._server_test import HOST, PORT
 from restkit.contrib import wsgi_proxy
 
 root_uri = "http://%s:%s" % (HOST, PORT)

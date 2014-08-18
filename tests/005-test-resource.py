@@ -8,7 +8,7 @@ from . import t
 
 from restkit.errors import RequestFailed, ResourceNotFound, Unauthorized
 from restkit.resource import Resource
-from _server_test import HOST, PORT
+from ._server_test import HOST, PORT
 
 
 @t.resource_request()

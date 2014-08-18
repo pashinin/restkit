@@ -9,7 +9,7 @@ from . import t
 from restkit import request
 from restkit.forms import multipart_form_encode
 
-from _server_test import HOST, PORT
+from ._server_test import HOST, PORT
 
 LONG_BODY_PART = """This is a relatively long body, that we send to the client...
 This is a relatively long body, that we send to the client...
