@@ -12,16 +12,13 @@ read or restart etc ... It's based on TeeInput from Gunicorn.
 """
 import copy
 import os
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+from six import BytesIO as StringIO
 import tempfile
 
 from restkit import conn
 
-class TeeInput(object):
 
+class TeeInput(object):
     CHUNK_SIZE = conn.CHUNK_SIZE
 
     def __init__(self, stream):
