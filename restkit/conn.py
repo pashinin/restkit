@@ -9,7 +9,7 @@ import select
 import socket
 import ssl
 import time
-import cStringIO
+from six import BytesIO as StringIO
 
 from socketpool import Connector
 from socketpool.util import is_connected
@@ -30,8 +30,8 @@ class Connection(Connector):
         self._s.connect((host, port))
         if proxy_pieces:
             self._s.sendall(proxy_pieces)
-            response = cStringIO.StringIO()
-            while response.getvalue()[-4:] != '\r\n\r\n':
+            response = StringIO()
+            while response.getvalue()[-4:] != b'\r\n\r\n':
                 response.write(self._s.recv(1))
             response.close()
         if is_ssl:
@@ -104,7 +104,6 @@ class Connection(Connector):
         for line in list(lines):
             self.send(line, chunked=chunked)
 
-
     # TODO: add support for sendfile api
     def sendfile(self, data, chunked=False):
         """ send a data from a FileObject """
@@ -117,7 +116,6 @@ class Connection(Connector):
             if binarydata == '':
                 break
             self.send(binarydata, chunked=chunked)
-
 
     def recv(self, size=1024):
         return self._s.recv(size)
