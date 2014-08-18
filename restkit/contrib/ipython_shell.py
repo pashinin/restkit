@@ -4,6 +4,7 @@
 # See the NOTICE for more information.
 
 from __future__ import print_function
+import six
 from six import BytesIO as StringIO
 from six.moves.urllib import parse as urlparse
 
@@ -63,7 +64,7 @@ class Request(BaseRequest):
                 stream = a
                 a.seek(0)
                 continue
-            elif isinstance(a, basestring):
+            elif isinstance(a, six.string_types):
                 if a.startswith('http'):
                     url = a
                 elif a.startswith('/'):

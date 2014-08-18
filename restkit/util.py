@@ -7,6 +7,7 @@ import os
 import re
 import time
 #from six.moves import urllib
+import six
 from six.moves.urllib import parse as urllib
 from six.moves.urllib import parse as urlparse
 import warnings
@@ -85,19 +86,21 @@ def parse_netloc(uri):
         host = host[1:-1]
     return (host, port)
 
+
 def to_bytestring(s):
-    if not isinstance(s, basestring):
+    if not isinstance(s, six.string_types):
         raise TypeError("value should be a str or unicode")
 
-    if isinstance(s, unicode):
+    if isinstance(s, six.text_type):
         return s.encode('utf-8')
     return s
 
+
 def url_quote(s, charset='utf-8', safe='/:'):
     """URL encode a single string with a given encoding."""
-    if isinstance(s, unicode):
+    if isinstance(s, six.text_type):
         s = s.encode(charset)
-    elif not isinstance(s, str):
+    elif not isinstance(s, six.string_types):
         s = str(s)
     return urllib.quote(s, safe=safe)
 
@@ -128,8 +131,9 @@ def url_encode(obj, charset="utf8", encode_keys=False):
             tmp.append('%s=%s' % (urllib.quote(k), urllib.quote_plus(v1)))
     return '&'.join(tmp)
 
+
 def encode(v, charset="utf8"):
-    if isinstance(v, unicode):
+    if isinstance(v, six.text_type):
         v = v.encode(charset)
     else:
         v = str(v)
@@ -157,7 +161,7 @@ def make_uri(base, *args, **kwargs):
     _path = []
     trailing_slash = False
     for s in args:
-        if s is not None and isinstance(s, basestring):
+        if s is not None and isinstance(s, six.string_types):
             if len(s) > 1 and s.endswith('/'):
                 trailing_slash = True
             else:

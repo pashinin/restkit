@@ -5,6 +5,7 @@
 
 import base64
 #from six.moves import urllib
+import six
 from six.moves.urllib import parse as urllib
 import time
 import random
@@ -92,14 +93,14 @@ def to_utf8(s):
 
 
 def to_unicode_if_string(s):
-    if isinstance(s, basestring):
+    if isinstance(s, six.string_types):
         return to_unicode(s)
     else:
         return s
 
 
 def to_utf8_if_string(s):
-    if isinstance(s, basestring):
+    if isinstance(s, six.string_types):
         return to_utf8(s)
     else:
         return s
@@ -110,7 +111,7 @@ def to_unicode_optional_iterator(x):
     Raise TypeError if x is a str containing non-utf8 bytes or if x is
     an iterable which contains such a str.
     """
-    if isinstance(x, basestring):
+    if isinstance(x, six.string_types):
         return to_unicode(x)
 
     try:
@@ -127,7 +128,7 @@ def to_utf8_optional_iterator(x):
     Raise TypeError if x is a str or if x is an iterable which
     contains a str.
     """
-    if isinstance(x, basestring):
+    if isinstance(x, six.string_types):
         return to_utf8(x)
 
     try:
@@ -443,7 +444,7 @@ class Request(dict):
                 continue
             # 1.0a/9.1.1 states that kvp must be sorted by key, then by value,
             # so we unpack sequence values into multiple items for sorting.
-            if isinstance(value, basestring):
+            if isinstance(value, six.string_types):
                 items.append((to_utf8_if_string(key), to_utf8(value)))
             else:
                 try:

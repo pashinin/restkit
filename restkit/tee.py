@@ -12,6 +12,7 @@ read or restart etc ... It's based on TeeInput from Gunicorn.
 """
 import copy
 import os
+import six
 from six import BytesIO as StringIO
 import tempfile
 
@@ -25,7 +26,7 @@ class TeeInput(object):
         self.buf = StringIO()
         self.eof = False
 
-        if isinstance(stream, basestring):
+        if isinstance(stream, six.string_types):
             stream = StringIO(stream)
             self.tmp = StringIO()
         else:
