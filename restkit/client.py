@@ -11,6 +11,7 @@ import socket
 import ssl
 import traceback
 import types
+import six
 from six.moves.urllib import parse as urlparse
 
 try:
@@ -288,9 +289,8 @@ class Client(object):
                     if request.headers.iget('content-length') is None and \
                             not chunked:
                         raise RequestError(
-                                "Can't determine content length and " +
-                                "Transfer-Encoding header is not chunked")
-
+                            "Can't determine content length and " +
+                            "Transfer-Encoding header is not chunked")
 
                     # handle 100-Continue status
                     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec8.html#sec8.2.3
@@ -302,7 +302,6 @@ class Client(object):
                         p = HttpStream(SocketReader(conn.socket()), kind=1,
                                 decompress=True)
 
-
                         if p.status_code != 100:
                             self.reset_request()
                             if log.isEnabledFor(logging.DEBUG):
@@ -313,7 +312,7 @@ class Client(object):
                     if log.isEnabledFor(logging.DEBUG):
                         log.debug("send body (chunked: %s)" % chunked)
 
-                    if isinstance(request.body, types.StringTypes):
+                    if isinstance(request.body, six.string_types):
                         if msg is not None:
                             conn.send(msg + to_bytestring(request.body),
                                       chunked)

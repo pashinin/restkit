@@ -9,6 +9,7 @@ import logging
 import mimetypes
 import os
 import types
+import six
 from six import BytesIO as StringIO
 from six.moves.urllib import parse as urlparse
 import uuid
@@ -125,7 +126,7 @@ class Request(object):
             elif hasattr(self._body, 'getvalue') and not \
                     self.is_chunked():
                 clen = len(self._body.getvalue())
-            elif isinstance(self._body, types.StringTypes):
+            elif isinstance(self._body, six.string_types):
                 self._body = to_bytestring(self._body)
                 clen = len(self._body)
 
@@ -145,7 +146,7 @@ class Request(object):
     def maybe_rewind(self, msg=""):
         if self.body is not None:
             if not hasattr(self.body, 'seek') and \
-                    not isinstance(self.body, types.StringTypes):
+                    not isinstance(self.body, six.string_types):
                 raise RequestError("error: '%s', body can't be rewind."
                                    % msg)
         if log.isEnabledFor(logging.DEBUG):

@@ -247,6 +247,7 @@ def test_021(u, c):
     t.eq(r.status_int, 200)
     t.eq(r.body_string(), 'line 1\n line2\n')
 
+
 @t.client_request('/chunked')
 def test_022(u, c):
     lines = ["line 1\n", " line2\n"]
