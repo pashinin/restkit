@@ -68,7 +68,9 @@ import re
 import stat
 import time
 import types
-from six.moves import urllib
+from six.moves.urllib.request import FancyURLopener, urlopen, _urlopener
+from six.moves.urllib import parse as urllib
+urllib._urlopener = _urlopener
 import urlparse
 import xml.sax
 
@@ -1833,7 +1835,7 @@ class Sitemap(xml.sax.handler.ContentHandler):
     output.Log('Notifying search engines.', 1)
 
     # Override the urllib's opener class with one that doesn't ignore 404s
-    class ExceptionURLopener(urllib.FancyURLopener):
+    class ExceptionURLopener(FancyURLopener):
       def http_error_default(self, url, fp, errcode, errmsg, headers):
         output.Log('HTTP error %d: %s' % (errcode, errmsg), 2)
         raise IOError
@@ -1850,7 +1852,7 @@ class Sitemap(xml.sax.handler.ContentHandler):
 
     # Test if we can hit it ourselves
     try:
-      u = urllib.urlopen(url)
+      u = urlopen(url)
       u.close()
     except IOError:
       output.Error('When attempting to access our generated Sitemap at the '
@@ -1873,7 +1875,7 @@ class Sitemap(xml.sax.handler.ContentHandler):
       output.Log('Notifying: %s' % ping[1], 0)
       output.Log('Notification URL: %s' % notify, 2)
       try:
-        u = urllib.urlopen(notify)
+        u = urlopen(notify)
         u.read()
         u.close()
       except IOError:

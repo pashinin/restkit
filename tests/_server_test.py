@@ -30,7 +30,7 @@ try:
     from urlparse import parse_qsl, parse_qs
 except ImportError:
     from cgi import parse_qsl, parse_qs
-from six.moves import urllib
+from six.moves.urllib import parse as urllib
 from restkit.util import to_bytestring
 
 HOST = 'localhost'
