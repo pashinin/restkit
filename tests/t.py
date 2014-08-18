@@ -15,7 +15,7 @@ dirname = os.path.dirname(__file__)
 from restkit.client import Client
 from restkit.resource import Resource
 
-from _server_test import HOST, PORT, run_server_test
+from ._server_test import HOST, PORT, run_server_test
 run_server_test()
 
 
