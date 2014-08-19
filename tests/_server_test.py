@@ -16,6 +16,7 @@
 #
 
 import base64
+import six
 from six.moves.BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import cgi
 import os
@@ -47,7 +48,7 @@ class HTTPTestHandler(BaseHTTPRequestHandler):
         self.parsed_uri = urlparse.urlparse(urllib.unquote(self.path))
         self.query = {}
         for k, v in parse_qsl(self.parsed_uri[4]):
-            self.query[k] = v.decode('utf-8')
+            self.query[k] = v.decode('utf-8') if isinstance(v, six.binary_type) else v
         path = self.parsed_uri[2]
 
         if path == "/":
@@ -146,7 +147,7 @@ class HTTPTestHandler(BaseHTTPRequestHandler):
         self.parsed_uri = urlparse.urlparse(self.path)
         self.query = {}
         for k, v in parse_qsl(self.parsed_uri[4]):
-            self.query[k] = v.decode('utf-8')
+            self.query[k] = v.decode('utf-8') if isinstance(v, six.binary_type) else v
         path = self.parsed_uri[2]
         extra_headers = []
         if path == "/":
