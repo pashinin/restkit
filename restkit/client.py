@@ -508,8 +508,8 @@ def _get_proxy_auth(proxy_settings):
                                                   u.fragment))
 
     if proxy_username:
-        user_auth = base64.encodestring(('%s:%s' % (proxy_username,
-                                                    proxy_password)).encode('utf8'))
+        user_auth = base64.encodebytes(('%s:%s' % (proxy_username,
+                                                   proxy_password)).encode('utf8'))
         return proxy_settings, b'Basic ' + user_auth.strip() + b'\r\n'
     else:
         return proxy_settings, b''
