@@ -101,7 +101,7 @@ def url_quote(s, charset='utf-8', safe='/:'):
     if isinstance(s, six.text_type):
         s = s.encode(charset)
     elif not isinstance(s, six.string_types):
-        s = str(s)
+        s = str(s).encode(charset)
     return urllib.quote(s, safe=safe)
 
 
