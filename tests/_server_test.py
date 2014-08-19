@@ -323,7 +323,7 @@ class HTTPTestHandler(BaseHTTPRequestHandler):
             body_parts.append(' %s: %s\r\n' % (k, v))
         body = ''.join(body_parts)
         self._respond(400, [('Content-type', 'text/plain'),
-                            ('Content-Length', str(len(body)))], body)
+                            ('Content-Length', str(len(body)).encode('utf8'))], body)
 
     def _respond(self, http_code, extra_headers, body):
         self.send_response(http_code)

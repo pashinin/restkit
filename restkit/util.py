@@ -136,7 +136,7 @@ def encode(v, charset="utf8"):
     if isinstance(v, six.text_type):
         v = v.encode(charset)
     else:
-        v = str(v)
+        v = str(v).encode(charset)
     return v
 
 
