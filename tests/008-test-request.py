@@ -6,6 +6,7 @@
 import os
 import uuid
 from . import t
+import six
 from restkit import request
 from restkit.forms import multipart_form_encode
 
@@ -98,7 +99,7 @@ def test_004():
     fn = os.path.join(os.path.dirname(__file__), "1M")
     f = open(fn, 'rb')
     l = int(os.fstat(f.fileno())[6])
-    b = {'a': 'aa', 'b': ['bb', 'éàù@'], 'f': f}
+    b = {'a': 'aa', 'b': ['bb', six.b('éàù@')], 'f': f}
     h = {'content-type': "multipart/form-data"}
     body, headers = multipart_form_encode(b, h, uuid.uuid4().hex)
     r = request(u, method='POST', body=body, headers=headers)
@@ -111,7 +112,7 @@ def test_005():
     fn = os.path.join(os.path.dirname(__file__), "1M")
     f = open(fn, 'rb')
     l = int(os.fstat(f.fileno())[6])
-    b = {'a': 'aa', 'b': 'éàù@', 'f': f}
+    b = {'a': 'aa', 'b': six.b('éàù@'), 'f': f}
     h = {'content-type': "multipart/form-data"}
     body, headers = multipart_form_encode(b, h, uuid.uuid4().hex)
     r = request(u, method='POST', body=body, headers=headers)
@@ -125,7 +126,7 @@ def test_006():
     f = open(fn, 'rb')
     content = f.read()
     f.seek(0)
-    b = {'a': 'aa', 'b': 'éàù@', 'f': f}
+    b = {'a': 'aa', 'b': six.b('éàù@'), 'f': f}
     h = {'content-type': "multipart/form-data"}
     body, headers = multipart_form_encode(b, h, uuid.uuid4().hex)
     r = request(u, method='POST', body=body, headers=headers)
@@ -136,10 +137,10 @@ def test_006():
 def test_007():
     from six import BytesIO as StringIO
     u = "http://%s:%s/multipart4" % (HOST, PORT)
-    content = 'éàù@'
-    f = StringIO('éàù@'.encode('utf8'))
+    content = six.b('éàù@')
+    f = StringIO(six.b('éàù@'))
     f.name = 'test.txt'
-    b = {'a': 'aa', 'b': 'éàù@', 'f': f}
+    b = {'a': 'aa', 'b': six.b('éàù@'), 'f': f}
     h = {'content-type': "multipart/form-data"}
     body, headers = multipart_form_encode(b, h, uuid.uuid4().hex)
     r = request(u, method='POST', body=body, headers=headers)

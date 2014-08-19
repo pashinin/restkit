@@ -5,7 +5,7 @@
 
 from __future__ import print_function
 from . import t
-
+import six
 from six import BytesIO as StringIO
 from restkit.errors import RequestFailed, ResourceNotFound, Unauthorized
 from restkit.resource import Resource
@@ -171,7 +171,7 @@ def test_022(res):
     fn = os.path.join(os.path.dirname(__file__), "1M")
     f = open(fn, 'rb')
     l = int(os.fstat(f.fileno())[6])
-    b = {'a': 'aa', 'b': ['bb', 'éàù@'], 'f': f}
+    b = {'a': 'aa', 'b': ['bb', six.b('éàù@')], 'f': f}
     h = {'content-type': "multipart/form-data"}
     r = res.post('/multipart2', payload=b, headers=h)
     t.eq(r.status_int, 200)
@@ -184,7 +184,7 @@ def test_023(res):
     fn = os.path.join(os.path.dirname(__file__), "1M")
     f = open(fn, 'rb')
     l = int(os.fstat(f.fileno())[6])
-    b = {'a': 'aa', 'b': 'éàù@', 'f': f}
+    b = {'a': 'aa', 'b': six.b('éàù@'), 'f': f}
     h = {'content-type': "multipart/form-data"}
     r = res.post('/multipart3', payload=b, headers=h)
     t.eq(r.status_int, 200)
@@ -198,7 +198,7 @@ def test_024(res):
     f = open(fn, 'rb')
     content = f.read()
     f.seek(0)
-    b = {'a': 'aa', 'b': 'éàù@', 'f': f}
+    b = {'a': 'aa', 'b': six.b('éàù@'), 'f': f}
     h = {'content-type': "multipart/form-data"}
     r = res.post('/multipart4', payload=b, headers=h)
     t.eq(r.status_int, 200)
@@ -207,10 +207,10 @@ def test_024(res):
 
 @t.resource_request()
 def test_025(res):
-    content = 'éàù@'
-    f = StringIO('éàù@'.encode('utf8'))
+    content = six.b('éàù@')
+    f = StringIO(six.b('éàù@'))
     f.name = 'test.txt'
-    b = {'a': 'aa', 'b': 'éàù@', 'f': f}
+    b = {'a': 'aa', 'b': six.b('éàù@'), 'f': f}
     h = {'content-type': "multipart/form-data"}
     r = res.post('/multipart4', payload=b, headers=h)
     t.eq(r.status_int, 200)
