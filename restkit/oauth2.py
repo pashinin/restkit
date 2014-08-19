@@ -78,9 +78,9 @@ def build_xoauth_string(url, consumer, token=None):
 def to_unicode(s):
     """ Convert to unicode, raise exception with instructive error
     message if s is not unicode, ascii, or utf-8. """
-    if not isinstance(s, unicode):
-        if not isinstance(s, str):
-            raise TypeError('You are required to pass either unicode or string here, not: %r (%s)' % (type(s), s))
+    if not isinstance(s, six.text_type):
+        if not isinstance(s, six.binary_type):
+            raise TypeError('You are required to pass either unicode or bytes here, not: %r (%s)' % (type(s), s))
         try:
             s = s.decode('utf-8')
         except UnicodeDecodeError as le:
@@ -407,7 +407,7 @@ class Request(dict):
             query = base_url[4]
         query = parse_qs(query)
         for k, v in self.items():
-            if isinstance(v, unicode):
+            if isinstance(v, six.text_type):
                 v = v.encode("utf-8")
             query.setdefault(k, []).append(v)
 

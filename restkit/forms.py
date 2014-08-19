@@ -7,6 +7,7 @@
 import mimetypes
 import os
 import re
+from six import text_type
 #from six.moves import urllib
 from six.moves.urllib import parse as urllib
 
@@ -32,7 +33,7 @@ class BoundaryItem(object):
             self.size = len(value)
         self.value = value
         if fname is not None:
-            if isinstance(fname, unicode):
+            if isinstance(fname, text_type):
                 fname = fname.encode("utf-8").encode("string_escape").replace('"', '\\"')
             else:
                 fname = fname.encode("string_escape").replace('"', '\\"')
