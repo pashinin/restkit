@@ -95,7 +95,7 @@ class Connection(Connector):
         self._s.sendall(chunk)
 
     def send(self, data, chunked=False):
-        if isinstance(data, six.string_types):
+        if isinstance(data, six.text_type):
             data = bytearray(data, 'utf-8')
 
         if chunked:
