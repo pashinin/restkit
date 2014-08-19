@@ -62,7 +62,7 @@ def build_authenticate_header(realm=''):
 def build_xoauth_string(url, consumer, token=None):
     """Build an XOAUTH string for use in SMTP/IMPA authentication."""
     request = Request.from_consumer_and_token(consumer, token,
-        "GET", url)
+                                              "GET", url)
 
     signing_method = SignatureMethod_HMAC_SHA1()
     request.sign_request(signing_method, consumer, token)
@@ -144,6 +144,7 @@ def escape(s):
     """Escape a URL including any /."""
     return urllib.quote(s.encode('utf-8'), safe='~')
 
+
 def generate_timestamp():
     """Get seconds since epoch (UTC)."""
     return int(time.time())
@@ -191,7 +192,7 @@ class Consumer(object):
 
     def __str__(self):
         data = {'oauth_consumer_key': self.key,
-            'oauth_consumer_secret': self.secret}
+                'oauth_consumer_secret': self.secret}
 
         return urllib.urlencode(data)
 
@@ -244,7 +245,7 @@ class Token(object):
             else:
                 query = 'oauth_verifier=%s' % self.verifier
             return urlparse.urlunparse((scheme, netloc, path, params,
-                query, fragment))
+                                        query, fragment))
         return self.callback
 
     def to_string(self):
@@ -284,7 +285,7 @@ class Token(object):
             secret = params['oauth_token_secret'][0]
         except Exception:
             raise ValueError("'oauth_token_secret' not found in "
-                "OAuth request.")
+                             "OAuth request.")
 
         token = Token(key, secret)
         try:
@@ -339,7 +340,6 @@ class Request(dict):
         self.body = body
         self.is_form_encoded = is_form_encoded
 
-
     @setter
     def url(self, value):
         self.__dict__['url'] = value
@@ -375,7 +375,7 @@ class Request(dict):
     def to_header(self, realm=''):
         """Serialize as a header for an HTTPAuth request."""
         oauth_params = ((k, v) for k, v in self.items()
-                            if k.startswith('oauth_'))
+                        if k.startswith('oauth_'))
         stringy_params = ((k, escape(str(v))) for k, v in oauth_params)
         header_params = ('%s="%s"' % (k, v) for k, v in stringy_params)
         params_header = ', '.join(header_params)
@@ -527,7 +527,7 @@ class Request(dict):
             parameters.update(query_params)
 
         # URL parameters.
-        param_str = urlparse.urlparse(http_url)[4] # query
+        param_str = urlparse.urlparse(http_url)[4]  # query
         url_params = cls._split_url_string(param_str)
         parameters.update(url_params)
 
@@ -538,8 +538,8 @@ class Request(dict):
 
     @classmethod
     def from_consumer_and_token(cls, consumer, token=None,
-            http_method=HTTP_METHOD, http_url=None, parameters=None,
-            body='', is_form_encoded=False):
+                                http_method=HTTP_METHOD, http_url=None, parameters=None,
+                                body='', is_form_encoded=False):
         if not parameters:
             parameters = {}
 
@@ -563,7 +563,7 @@ class Request(dict):
 
     @classmethod
     def from_token_and_callback(cls, token, callback=None,
-        http_method=HTTP_METHOD, http_url=None, parameters=None):
+                                http_method=HTTP_METHOD, http_url=None, parameters=None):
 
         if not parameters:
             parameters = {}
