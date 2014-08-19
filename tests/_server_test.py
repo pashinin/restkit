@@ -39,7 +39,7 @@ PORT = (os.getpid() % 31000) + 1024
 
 class HTTPTestHandler(BaseHTTPRequestHandler):
     def __init__(self, request, client_address, server):
-        self.auth = 'Basic ' + base64.encodestring(b'test:test')[:-1].decode('utf8')
+        self.auth = b'Basic ' + base64.encodestring(b'test:test')[:-1]
         self.count = 0
         BaseHTTPRequestHandler.__init__(self, request, client_address, server)
 
