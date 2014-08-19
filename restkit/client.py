@@ -380,7 +380,7 @@ class Client(object):
             except Exception:
                 # unkown error
                 log.debug("unhandled exception %s" %
-                        traceback.format_exc())
+                          traceback.format_exc())
                 if conn is not None:
                     conn.release(True)
 
@@ -459,8 +459,8 @@ class Client(object):
                             self.body.seek(0)
                         except AttributeError:
                             raise RequestError("Can't redirect %s to %s "
-                                    "because body has already been read"
-                                    % (self.url, location))
+                                               "because body has already been read"
+                                               % (self.url, location))
                     return self.redirect(location, request)
 
             elif p.status_code() == 303 and self.method == "POST":

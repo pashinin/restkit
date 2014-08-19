@@ -12,6 +12,7 @@ import threading
 import sys
 import tempfile
 import time
+import six
 
 from . import t
 from restkit.filters import BasicAuth
@@ -86,7 +87,7 @@ def test_002(u, c):
     t.eq(r.body_string(charset="utf-8"), u"éàù@")
 
 
-@t.client_request("/éàù")
+@t.client_request(six.b("/éàù"))
 def test_003(u, c):
     r = c.request(u)
     t.eq(r.body_string(), "ok")
