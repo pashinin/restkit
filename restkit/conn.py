@@ -91,7 +91,8 @@ class Connection(Connector):
         return self._s
 
     def send_chunk(self, data):
-        chunk = "".join(("%X\r\n" % len(data), data, "\r\n"))
+        #chunk = "".join(("%X\r\n" % len(data), data, "\r\n"))
+        chunk = ("%X\r\n" % len(data)).encode('utf8') + data + b"\r\n"
         self._s.sendall(chunk)
 
     def send(self, data, chunked=False):
