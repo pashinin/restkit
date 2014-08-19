@@ -205,19 +205,23 @@ class Client(object):
                     user_agent = "User-Agent: restkit/%s\r\n" % __version__
 
                 proxy_pieces = '%s%s%s\r\n' % (proxy_connect, proxy_auth,
-                        user_agent)
+                                               user_agent)
 
-                conn = self._pool.get(host=addr[0], port=addr[1],
-                    pool=self._pool, is_ssl=is_ssl,
-                    extra_headers=[], proxy_pieces=proxy_pieces, **self.ssl_args)
+                conn = self._pool.get(host=addr[0],
+                                      port=addr[1],
+                                      pool=self._pool,
+                                      is_ssl=is_ssl,
+                                      extra_headers=[],
+                                      proxy_pieces=proxy_pieces,
+                                      **self.ssl_args)
             else:
                 headers = []
                 if proxy_auth:
                     headers = [('Proxy-authorization', proxy_auth)]
 
                 conn = self._pool.get(host=addr[0], port=addr[1],
-                        pool=self._pool, is_ssl=False,
-                        extra_headers=[], **self.ssl_args)
+                                      pool=self._pool, is_ssl=False,
+                                      extra_headers=[], **self.ssl_args)
             return conn
 
         return
@@ -258,9 +262,9 @@ class Client(object):
             "Accept-Encoding: %s\r\n" % accept_encoding
         ]
 
-        lheaders.extend(["%s: %s\r\n" % (k, str(v)) for k, v in \
-                headers.items() if k.lower() not in \
-                ('user-agent', 'host', 'accept-encoding',)])
+        lheaders.extend(["%s: %s\r\n" % (k, str(v)) for k, v in
+                         headers.items() if k.lower() not in
+                         ('user-agent', 'host', 'accept-encoding',)])
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Send headers: %s" % lheaders)
         return "%s\r\n" % "".join(lheaders)
@@ -271,7 +275,7 @@ class Client(object):
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Start to perform request: %s %s %s" %
-                    (request.host, request.method, request.path))
+                      (request.host, request.method, request.path))
         tries = 0
         while True:
             conn = None
@@ -281,7 +285,7 @@ class Client(object):
 
                 # send headers
                 msg = self.make_headers_string(request,
-                        conn.extra_headers)
+                                               conn.extra_headers)
 
                 # send body
                 if request.body is not None:
@@ -300,7 +304,7 @@ class Client(object):
                         conn.send(msg)
                         msg = None
                         p = HttpStream(SocketReader(conn.socket()), kind=1,
-                                decompress=True)
+                                       decompress=True)
 
                         if p.status_code != 100:
                             self.reset_request()
@@ -497,12 +501,15 @@ def _get_proxy_auth(proxy_settings):
         if u.username:
             proxy_password = u.password or proxy_password
             proxy_settings = urlparse.urlunparse((u.scheme,
-                u.netloc.split("@")[-1], u.path, u.params, u.query,
-                u.fragment))
+                                                  u.netloc.split("@")[-1],
+                                                  u.path,
+                                                  u.params,
+                                                  u.query,
+                                                  u.fragment))
 
     if proxy_username:
-        user_auth = base64.encodestring('%s:%s' % (proxy_username,
-                                    proxy_password))
-        return proxy_settings, 'Basic %s\r\n' % (user_auth.strip())
+        user_auth = base64.encodestring(('%s:%s' % (proxy_username,
+                                                    proxy_password)).encode('utf8')).decode('utf8')
+        return proxy_settings, 'Basic ' + user_auth.strip() + '\r\n'
     else:
         return proxy_settings, ''

@@ -39,7 +39,7 @@ PORT = (os.getpid() % 31000) + 1024
 
 class HTTPTestHandler(BaseHTTPRequestHandler):
     def __init__(self, request, client_address, server):
-        self.auth = 'Basic ' + base64.encodestring('test:test')[:-1]
+        self.auth = 'Basic ' + base64.encodestring(b'test:test')[:-1].decode('utf8')
         self.count = 0
         BaseHTTPRequestHandler.__init__(self, request, client_address, server)
 
@@ -104,7 +104,7 @@ class HTTPTestHandler(BaseHTTPRequestHandler):
                     self._respond(403, extra_headers, "niet!")
         elif path == "/redirect":
             extra_headers = [('Content-type', 'text/plain'),
-                ('Location', '/complete_redirect')]
+                             ('Location', '/complete_redirect')]
             self._respond(301, extra_headers, "")
 
         elif path == "/complete_redirect":
