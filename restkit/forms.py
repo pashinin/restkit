@@ -11,7 +11,6 @@ from six import text_type
 #from six.moves import urllib
 from six.moves.urllib import parse as urllib
 
-
 from restkit.util import to_bytestring, url_quote, url_encode
 
 MIME_BOUNDARY = 'END_OF_PART'
@@ -42,7 +41,8 @@ class BoundaryItem(object):
             filetype = to_bytestring(filetype)
         self.filetype = filetype
 
-        if isinstance(value, file) and filesize is None:
+        #if isinstance(value, file) and filesize is None:
+        if hasattr(value, 'fileno') and filesize is None:
             try:
                 value.flush()
             except IOError:
@@ -118,7 +118,8 @@ class MultipartForm(object):
                     filetype = ';'.join(filter(None, mimetypes.guess_type(fname)))
                 else:
                     filetype = None
-                if not isinstance(value, file) and self._clen is None:
+                #if not isinstance(value, file) and self._clen is None:
+                if not hasattr(value, 'fileno') and self._clen is None:
                     value = value.read()
 
                 boundary = bitem_cls(name, value, fname, filetype, quote=quote)
