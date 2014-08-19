@@ -137,7 +137,7 @@ def test_007():
     from six import BytesIO as StringIO
     u = "http://%s:%s/multipart4" % (HOST, PORT)
     content = 'éàù@'
-    f = StringIO('éàù@')
+    f = StringIO('éàù@'.encode('utf8'))
     f.name = 'test.txt'
     b = {'a': 'aa', 'b': 'éàù@', 'f': f}
     h = {'content-type': "multipart/form-data"}

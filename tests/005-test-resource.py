@@ -208,7 +208,7 @@ def test_024(res):
 @t.resource_request()
 def test_025(res):
     content = 'éàù@'
-    f = StringIO(b'éàù@')
+    f = StringIO('éàù@'.encode('utf8'))
     f.name = 'test.txt'
     b = {'a': 'aa', 'b': 'éàù@', 'f': f}
     h = {'content-type': "multipart/form-data"}

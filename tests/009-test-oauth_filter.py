@@ -12,10 +12,7 @@
 # Key: bd37aed57e15df53
 # Secret: 0e9e6413a9ef49510a4f68ed02cd
 from __future__ import print_function
-try:
-    from urlparse import parse_qs, parse_qsl
-except ImportError:
-    from cgi import parse_qs, parse_qsl
+from six.moves.urllib.parse import parse_qsl, parse_qs
 from six.moves.urllib import parse as urllib
 
 from restkit import request, OAuthFilter
