@@ -388,7 +388,7 @@ class Client(object):
         """ perform immediatly a new request """
 
         request = Request(url, method=method, body=body,
-                headers=headers)
+                          headers=headers)
 
         # apply request filters
         # They are applied only once time.
@@ -432,7 +432,7 @@ class Client(object):
             log.debug("Start to parse response")
 
         p = HttpStream(SocketReader(connection.socket()), kind=1,
-                decompress=self.decompress)
+                       decompress=self.decompress)
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug("Got response: %s %s" % (p.version(), p.status()))

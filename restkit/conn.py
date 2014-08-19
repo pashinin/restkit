@@ -9,6 +9,7 @@ import select
 import socket
 import ssl
 import time
+import six
 from six import BytesIO as StringIO
 
 from socketpool import Connector
@@ -94,6 +95,9 @@ class Connection(Connector):
         self._s.sendall(chunk)
 
     def send(self, data, chunked=False):
+        if isinstance(data, six.string_types):
+            data = bytearray(data, 'utf-8')
+
         if chunked:
             return self.send_chunk(data)
 
