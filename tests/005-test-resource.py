@@ -63,14 +63,14 @@ def test_007(res):
 
 @t.resource_request()
 def test_008(res):
-    r = res.post(payload=b"test")
-    t.eq(r.body_string(), b"test")
+    r = res.post(payload="test")
+    t.eq(r.body_string(), "test")
 
 
 @t.resource_request()
 def test_009(res):
-    r = res.post('/bytestring', payload=b"éàù@")
-    t.eq(r.body_string(), b"éàù@")
+    r = res.post('/bytestring', payload="éàù@")
+    t.eq(r.body_string(), "éàù@")
 
 
 @t.resource_request()
