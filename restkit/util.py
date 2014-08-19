@@ -88,12 +88,12 @@ def parse_netloc(uri):
 
 
 def to_bytestring(s):
-    if not isinstance(s, six.string_types):
-        raise TypeError("value should be a str or unicode")
-
     if isinstance(s, six.text_type):
         return s.encode('utf-8')
-    return s
+    elif isinstance(s, six.binary_type):
+        return s
+    else:
+        raise TypeError("value should be a str or unicode")
 
 
 def url_quote(s, charset='utf-8', safe='/:'):
