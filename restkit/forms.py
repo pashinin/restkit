@@ -108,7 +108,7 @@ class MultipartForm(object):
         self._clen = headers.get('Content-Length')
 
         if hasattr(params, 'items'):
-            params = params.items()
+            params = list(params.items())
 
         for param in params:
             name, value = param

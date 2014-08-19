@@ -100,7 +100,7 @@ class ContentTypes(object):
 
     def __str__(self):
         return '\n'.join(['%-20.20s: %s' % h for h in
-                          sorted(self._value.items())])
+                          sorted(list(self._value.items()))])
 
 
 ctypes = ContentTypes()

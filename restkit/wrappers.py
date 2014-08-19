@@ -226,7 +226,7 @@ class Response(object):
         self.status = resp.status()
         self.status_int = resp.status_code()
         self.version = resp.version()
-        self.headerslist = self.headers.items()
+        self.headerslist = list(self.headers.items())
         self.location = self.headers.get('location')
         self.final_url = request.url
         self.should_close = not resp.should_keep_alive()
