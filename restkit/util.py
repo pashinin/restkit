@@ -100,6 +100,8 @@ def url_quote(s, charset='utf-8', safe='/:'):
     """URL encode a single string with a given encoding."""
     if isinstance(s, six.text_type):
         s = s.encode(charset)
+    elif isinstance(s, six.binary_type):
+        pass
     elif not isinstance(s, six.string_types):
         s = str(s).encode(charset)
     return urllib.quote(s, safe=safe)
@@ -135,6 +137,8 @@ def url_encode(obj, charset="utf8", encode_keys=False):
 def encode(v, charset="utf8"):
     if isinstance(v, six.text_type):
         v = v.encode(charset)
+    elif isinstance(v, six.binary_type):
+        pass
     else:
         v = str(v).encode(charset)
     return v
